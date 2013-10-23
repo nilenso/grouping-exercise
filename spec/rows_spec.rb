@@ -27,4 +27,14 @@ describe Rows do
       row.get('A').should == "Foo"
     end
   end
+  
+  context "when looking for matching rows" do
+    it "returns matching rows grouped together" do
+      csv = CSV.open("spec/fixtures/matching.csv")
+      rows = Rows.new.import_from_csv(csv)
+      strategy = MatchingStrategy.new(attribute: 'Email')
+      matches = rows.match_by(strategy)
+      matches.values.first.map { |row| row.get('Email')}.should == ['janes@home.com', 'janes@home.com']
+    end
+  end
 end

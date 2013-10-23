@@ -15,6 +15,15 @@ class Rows
     self
   end
   
+  def match_by(strategy)
+    @rows.combination(2).inject(Hash.new {[]}) do |hash, combination|
+      if strategy.match?(*combination)
+        hash[strategy.key_for(*combination)] += combination
+      end
+      hash
+    end
+  end
+  
   def to_a
     @rows
   end

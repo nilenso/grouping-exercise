@@ -1,0 +1,4 @@
+FirstName,LastName,Phone,Email,Zip
+Jane,Smith,(555) 123-4567,janes@home.com,94105-1245
+,Smith,,janes@home.com,
+Jane,Smith,(555) 123-4567,jim@home.com,94105-1245

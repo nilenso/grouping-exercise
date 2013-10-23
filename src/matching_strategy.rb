@@ -6,4 +6,8 @@ class MatchingStrategy
   def match?(first, second)
     first.get(@attribute) == second.get(@attribute)
   end
+  
+  def key_for(first, second)
+    "#{first.get(@attribute)}#{second.get(@attribute)}"
+  end
 end
