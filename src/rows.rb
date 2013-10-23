@@ -7,7 +7,15 @@ class Rows
   end
   
   def import_from_csv(csv)
-    @rows += csv.read.drop(1)
+    csv_header, *csv_lines = csv.read
+    @rows += csv_lines.map do |row|
+      row_data = Hash[csv_header.zip(row)]
+      Row.new(row_data)
+    end
     self
+  end
+  
+  def to_a
+    @rows
   end
 end
