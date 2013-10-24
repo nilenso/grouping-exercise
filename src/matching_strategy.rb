@@ -1,3 +1,5 @@
+require 'digest/md5'
+
 class MatchingStrategy
   def initialize(config)
     @matching_attribute = config[:attribute]
@@ -19,7 +21,9 @@ class MatchingStrategy
   end
 
   def key_for(first, second)
-    "#{first.get(@matching_attribute.key)}#{second.get(@matching_attribute.key)}"
+    first_key = first.get(@matching_attribute.key)
+    second_key = second.get(@matching_attribute.key)
+    Digest::MD5.hexdigest("#{first_key}#{second_key}")
   end
 
   private
