@@ -8,7 +8,14 @@ class MatchingStrategy
   end
 
   def match?(first, second)
-    first.get(@matching_attribute.key) == second.get(@matching_attribute.key)
+    first_key = first.get(@matching_attribute.key)
+    second_key = second.get(@matching_attribute.key)
+
+    if first_key.nil? || first_key.empty?
+      false
+    else
+      first_key == second_key
+    end
   end
 
   def key_for(first, second)
