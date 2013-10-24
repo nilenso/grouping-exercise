@@ -20,10 +20,15 @@ command :parse do |c|
       puts "You need to specfiy a matching type. Quitting."
       exit 1
     else
+      puts "* Opening the CSV file"
       csv = CSV.open(options.filename)
+      puts "* Parsing the CSV file"
       rows = Rows.new.import_from_csv(csv)
+      puts "* Finding matches"
       matches = rows.match_by(MatchingStrategy.new_with_type(options.matching_type))
+      puts "* Writing results to output.csv"
       File.open("output.csv", 'w') { |f| f.write(matches.to_csv) }
+      puts "* Done!"
     end
   end
 end
