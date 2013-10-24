@@ -7,11 +7,11 @@ require 'csv'
 
 program :name, 'Grouping Exercise'
 program :version, '1.0.0'
-program :description, 'Stupid command that prints foo or bar.'
+program :description, 'Group rows from a CSV file'
 
 command :parse do |c|
-  c.option '-f', '--filename FILENAME', String, 'Adds a prefix to bar'
-  c.option '-m', '--matching-type TYPE', String, 'Adds a suffix to bar'
+  c.option '-f', '--filename FILENAME', String, 'The filename of the CSV file you want to parse'
+  c.option '-m', '--matching-type TYPE', String, 'The type of matching you want to use'
   c.action do |args, options|
     if options.filename.nil?
       puts "You need to specify a file name. Quitting."
