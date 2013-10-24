@@ -37,20 +37,23 @@ describe Rows do
       matches.class.should == RowMatches
     end
 
-    it "returns two matching rows grouped together" do
+    it "groups two matching rows together" do
       csv = CSV.open("spec/fixtures/matching_two.csv")
       rows = Rows.new.import_from_csv(csv)
+      first_row, second_row, _ = rows.to_a
       strategy = MatchingStrategy.new(attribute: MatchingAttribute.new('Email'))
       matches = rows.match_by(strategy).to_hash
-      matches.values.first.map { |row| row.get('Email')}.should == ['janes@home.com', 'janes@home.com']
+      matches[first_row].should == matches[second_row]
     end
 
-    it "returns three matching rows grouped together" do
+    it "groups three matching rows together" do
       csv = CSV.open("spec/fixtures/matching_three.csv")
       rows = Rows.new.import_from_csv(csv)
+      first_row, second_row, third_row = rows.to_a
       strategy = MatchingStrategy.new(attribute: MatchingAttribute.new('Email'))
       matches = rows.match_by(strategy).to_hash
-      matches.values.first.map { |row| row.get('Email')}.should == ['janes@home.com', 'janes@home.com', 'janes@home.com']
+      matches[first_row].should == matches[second_row]
+      matches[third_row].should == matches[second_row]
     end
   end
 end
