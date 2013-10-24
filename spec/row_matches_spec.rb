@@ -18,6 +18,14 @@ describe RowMatches do
     end
 
     context "when setting the group ID" do
+      it "sets a 32-character string" do
+        row = Row.new("Email" => "foo@bar.com")
+        matches = RowMatches.new([row])
+        csv = matches.to_csv
+        row_csv = CSV.parse(csv).last
+        row_csv.last.size.should == 32
+      end
+
       it "sets a unique string if the row isn't part of a match" do
         first_row = Row.new("Email" => "foo@bar.com")
         second_row = Row.new("Email" => "baz@bar.com")

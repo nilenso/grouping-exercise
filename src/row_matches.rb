@@ -1,4 +1,5 @@
 require 'set'
+require 'securerandom'
 
 class RowMatches
   def initialize(all_rows)
@@ -30,6 +31,6 @@ class RowMatches
   private
 
   def key_for(row)
-    @matches[row] || ((0...8).map { (65 + rand(26)).chr }.join)
+    @matches[row] || SecureRandom.hex
   end
 end
