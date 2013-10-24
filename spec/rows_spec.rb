@@ -29,11 +29,19 @@ describe Rows do
   end
 
   context "when looking for matching rows" do
-    it "returns two matching rows grouped together" do
+    it "returns a RowMatches object" do
       csv = CSV.open("spec/fixtures/matching_two.csv")
       rows = Rows.new.import_from_csv(csv)
       strategy = MatchingStrategy.new(attribute: MatchingAttribute.new('Email'))
       matches = rows.match_by(strategy)
+      matches.class.should == RowMatches
+    end
+
+    it "returns two matching rows grouped together" do
+      csv = CSV.open("spec/fixtures/matching_two.csv")
+      rows = Rows.new.import_from_csv(csv)
+      strategy = MatchingStrategy.new(attribute: MatchingAttribute.new('Email'))
+      matches = rows.match_by(strategy).to_hash
       matches.values.first.map { |row| row.get('Email')}.should == ['janes@home.com', 'janes@home.com']
     end
 
@@ -41,7 +49,7 @@ describe Rows do
       csv = CSV.open("spec/fixtures/matching_three.csv")
       rows = Rows.new.import_from_csv(csv)
       strategy = MatchingStrategy.new(attribute: MatchingAttribute.new('Email'))
-      matches = rows.match_by(strategy)
+      matches = rows.match_by(strategy).to_hash
       matches.values.first.map { |row| row.get('Email')}.should == ['janes@home.com', 'janes@home.com', 'janes@home.com']
     end
   end

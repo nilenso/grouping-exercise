@@ -22,7 +22,8 @@ command :parse do |c|
     else
       csv = CSV.open(options.filename)
       rows = Rows.new.import_from_csv(csv)
-      rows.match_by(MatchingStrategy.new_with_type(options.matching_type))
+      matches = rows.match_by(MatchingStrategy.new_with_type(options.matching_type))
+      puts matches.to_csv
     end
   end
 end

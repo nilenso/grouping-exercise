@@ -19,11 +19,11 @@ class Rows
   end
 
   def match_by(strategy)
-    @rows.combination(2).inject(Hash.new { Set.new }) do |hash, combination|
+    matches = @rows.combination(2).inject(RowMatches.new(@rows)) do |matches, combination|
       if strategy.match?(*combination)
-        hash[strategy.key_for(*combination)] += combination
+        matches.add_match(strategy.key_for(*combination), combination)
       end
-      hash
+      matches
     end
   end
 
