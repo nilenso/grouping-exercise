@@ -9,6 +9,10 @@ class MatchingStrategy
     strategies[type]
   end
 
+  def self.invalid_matching_type?(type)
+    !strategies.keys.include?(type)
+  end
+
   def match(first_row, second_row)
     first_row_keys = @matching_attribute.keys.map { |key| first_row.get(key) }
     second_row_keys = @matching_attribute.keys.map { |key| second_row.get(key) }

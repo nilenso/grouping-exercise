@@ -19,6 +19,9 @@ command :parse do |c|
     elsif options.matching_type.nil?
       puts "You need to specfiy a matching type. Quitting."
       exit 1
+    elsif MatchingStrategy.invalid_matching_type?(options.matching_type)
+      puts "That matching type isn't currently supported. Quitting."
+      exit 1
     else
       puts "* Opening the CSV file"
       csv = CSV.open(options.filename)

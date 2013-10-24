@@ -59,4 +59,17 @@ describe MatchingStrategy do
       end
     end
   end
+
+  context "when checking if a matching type is invalid" do
+    it "returns false if the matching type is valid" do
+      allow(MatchingStrategy).to receive(:strategies).and_return({})
+      MatchingStrategy.invalid_matching_type?('bar').should be_true
+    end
+
+    it "returns true if the matching type is invalid" do
+      strategy = MatchingStrategy.new(attribute: MatchingAttribute.new("Foo"))
+      allow(MatchingStrategy).to receive(:strategies).and_return({'foo' => strategy})
+      MatchingStrategy.invalid_matching_type?('foo').should be_false
+    end
+  end
 end
