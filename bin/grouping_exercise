@@ -23,7 +23,7 @@ command :parse do |c|
       csv = CSV.open(options.filename)
       rows = Rows.new.import_from_csv(csv)
       matches = rows.match_by(MatchingStrategy.new_with_type(options.matching_type))
-      puts matches.to_csv
+      File.open("output.csv", 'w') { |f| f.write(matches.to_csv) }
     end
   end
 end
