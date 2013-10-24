@@ -7,19 +7,19 @@ describe Rows do
       csv = CSV.open("spec/fixtures/test.csv")
       Rows.new.import_from_csv(csv).class.should == Rows
     end
-    
+
     it "contains every record in the CSV file except the header" do
       csv = CSV.open("spec/fixtures/test.csv")
       rows = Rows.new.import_from_csv(csv)
       rows.size.should == 8
     end
-    
+
     it "creates a Row for each record in the CSV" do
       csv = CSV.open("spec/fixtures/test.csv")
       rows = Rows.new.import_from_csv(csv)
       rows.to_a.map(&:class).uniq.should == [Row]
     end
-    
+
     it "populates each row with data from the CSV" do
       csv = CSV.open("spec/fixtures/single.csv")
       rows = Rows.new.import_from_csv(csv)
@@ -27,7 +27,7 @@ describe Rows do
       row.get('A').should == "Foo"
     end
   end
-  
+
   context "when looking for matching rows" do
     it "returns two matching rows grouped together" do
       csv = CSV.open("spec/fixtures/matching_two.csv")
@@ -36,7 +36,7 @@ describe Rows do
       matches = rows.match_by(strategy)
       matches.values.first.map { |row| row.get('Email')}.should == ['janes@home.com', 'janes@home.com']
     end
-    
+
     it "returns three matching rows grouped together" do
       csv = CSV.open("spec/fixtures/matching_three.csv")
       rows = Rows.new.import_from_csv(csv)

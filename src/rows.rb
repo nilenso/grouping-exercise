@@ -1,11 +1,14 @@
+require 'forwardable'
+require 'set'
+
 class Rows
   extend Forwardable
   def_delegator :@rows, :size
-  
+
   def initialize
     @rows = []
   end
-  
+
   def import_from_csv(csv)
     csv_header, *csv_lines = csv.read
     @rows += csv_lines.map do |row|
@@ -14,7 +17,7 @@ class Rows
     end
     self
   end
-  
+
   def match_by(strategy)
     @rows.combination(2).inject(Hash.new { Set.new }) do |hash, combination|
       if strategy.match?(*combination)
@@ -23,7 +26,7 @@ class Rows
       hash
     end
   end
-  
+
   def to_a
     @rows
   end

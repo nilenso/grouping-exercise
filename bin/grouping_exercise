@@ -1,0 +1,30 @@
+#!/usr/bin/env ruby
+
+require_relative "../grouping_exercise"
+require 'rubygems'
+require 'commander/import'
+require 'csv'
+
+program :name, 'Grouping Exercise'
+program :version, '1.0.0'
+program :description, 'Stupid command that prints foo or bar.'
+
+command :parse do |c|
+  c.option '-f', '--filename FILENAME', String, 'Adds a prefix to bar'
+  c.option '-m', '--matching-type TYPE', String, 'Adds a suffix to bar'
+  c.action do |args, options|
+    if options.filename.nil?
+      puts "You need to specify a file name. Quitting."
+      exit 1
+    elsif options.matching_type.nil?
+      puts "You need to specfiy a matching type. Quitting."
+      exit 1
+    else
+      csv = CSV.open(options.filename)
+      rows = Rows.new.import_from_csv(csv)
+      rows.match_by(MatchingStrategy.new(attribute: MatchingAttribute.new('Email')))
+    end
+  end
+end
+
+default_command :parse
