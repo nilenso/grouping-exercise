@@ -67,5 +67,19 @@ describe RowMatches do
       matches.to_hash[first_row].should == matches.to_hash[second_row]
       matches.to_hash[third_row].should == matches.to_hash[second_row]
     end
+
+    it "generates the same string for two pairs of rows - when the 1st and 2nd match, the 3rd and 4th match, and then the 1st and 3rd match" do
+      first_row = Row.new('Email1' => "foo@foo.com", 'Email2' => 'foo@baz.com')
+      second_row = Row.new('Email1' => "foo@foo.com")
+      third_row = Row.new('Email1' => "foo@bar.com", 'Email2' => 'foo@baz.com')
+      fourth_row = Row.new('Email1' => "foo@bar.com")
+      matches = RowMatches.new([first_row, second_row, third_row, fourth_row])
+      matches.add_match(first_row, second_row)
+      matches.add_match(third_row, fourth_row)
+      matches.add_match(first_row, third_row)
+      matches.to_hash[first_row].should == matches.to_hash[second_row]
+      matches.to_hash[second_row].should == matches.to_hash[third_row]
+      matches.to_hash[third_row].should == matches.to_hash[fourth_row]
+    end
   end
 end

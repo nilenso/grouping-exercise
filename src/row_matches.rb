@@ -32,9 +32,20 @@ class RowMatches
 
   def generate_key_for(first, second)
     key = @matches[first] || @matches[second] || Digest::MD5.hexdigest("#{first}#{second}")
+
+    # If we're matching two rows which belong to separate buckets,
+    # of size > 1. After the match, all rows in both these buckets
+    # should have the same match key. We do this by changing all match
+    # keys in the second bucket to the match key of the first bucket
+    change_match_keys(@matches[second], key) if @matches[second]
+
     @matches[first] ||= key
     @matches[second] ||= key
     key
+  end
+
+  def change_match_keys(old_key, new_key)
+    @matches.each { |row,_| @matches[row] = new_key if @matches[row] == old_key }
   end
 
   def fetch_key_for(row)
