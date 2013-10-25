@@ -13,13 +13,13 @@ class MatchingStrategy
     !strategies.keys.include?(type)
   end
 
-  def match(first_row, second_row)
+  def match?(first_row, second_row)
     first_row_keys = @matching_attribute.keys.map { |key| first_row.get(key) }
     second_row_keys = @matching_attribute.keys.map { |key| second_row.get(key) }
 
     first_row_keys.product(second_row_keys).each do |first_row_key, second_row_key|
-      if !first_row_key.nil? && !first_row_key.empty? && first_row_key == second_row_key
-        return key_for(first_row_key, second_row_key)
+      if !first_row_key.nil? && !first_row_key.nil?
+        return true if first_row_key == second_row_key
       end
     end
 
@@ -27,10 +27,6 @@ class MatchingStrategy
   end
 
   private
-
-  def key_for(first, second)
-    Digest::MD5.hexdigest("#{first}#{second}")
-  end
 
   def self.strategies
     {

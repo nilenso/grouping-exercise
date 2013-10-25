@@ -20,8 +20,9 @@ class Rows
 
   def match_by(strategy)
     matches = @rows.combination(2).inject(RowMatches.new(@rows)) do |matches, combination|
-      match_key = strategy.match(*combination)
-      matches.add_match(match_key, combination) if match_key
+      if strategy.match?(*combination)
+        matches.add_match(*combination)
+      end
       matches
     end
   end
